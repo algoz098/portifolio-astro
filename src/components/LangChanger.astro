@@ -1,0 +1,38 @@
+---
+export interface Props {
+	lang: string;
+	tooltip: string;
+}
+
+const { lang, tooltip } = Astro.props;
+---
+<div class="hover:text-gray-600 cursor-pointer lang">
+  {lang}
+
+  <span class="tooltiptext">{tooltip}</span>
+</div>
+
+<style>
+.lang:hover .tooltiptext {
+  visibility: visible;
+}/* Tooltip container */
+.lang {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.lang .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+}
+
+</style>

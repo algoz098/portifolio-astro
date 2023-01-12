@@ -1,0 +1,16 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Card from '../../components/Card.astro';
+
+import detectLang from '../../js/detectLang'
+import loadEnv from '../../js/env'
+
+detectLang(Astro)
+const data = await loadEnv()
+---
+<Layout title="Welcome to Astro.">
+	<main>
+		Oi
+		</ul>
+	</main>
+</Layout>

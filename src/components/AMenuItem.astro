@@ -1,0 +1,24 @@
+---
+export interface Props {
+	title: string;
+	href: string;
+}
+
+const { title, href } = Astro.props;
+
+const pathname = new URL(Astro.request.url).pathname;
+const currentPath = pathname.slice(1); // remove the first "/"
+---
+<a href={href} class:list={[
+  "text-center pl-16 py-4 pr-5 text-4xl hover:bg-indigo-100 hover:bg-opacity-5",
+  {'border-l-8 border-l-indigo-500 text-indigo-500 active': currentPath === href}]
+} >
+  {title}
+</a>
+
+
+<style>
+  .active {
+    padding-left: 56px
+  }
+</style>

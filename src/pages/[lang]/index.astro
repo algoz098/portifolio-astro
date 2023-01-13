@@ -3,15 +3,16 @@ import Layout from '../../layouts/Layout.astro';
 
 import detectLang from '../../js/detectLang'
 import loadEnv, {env} from '../../js/env'
-import loadLang, {locale} from '../../js/loadLang'
+import loadLang, {locale, localeName} from '../../js/loadLang'
 
 var route = detectLang(Astro)
 if(route) return route
 const lang = await loadLang(Astro.params.lang)
 const data = await loadEnv()
+
+const knowMoreLink = `/${localeName}/work`
 ---
 <Layout title={lang.about}>
-
   <section>
     <h2 class="mt-28 text-8xl">
       <strong>artur</strong> sena<strong class="text-indigo-500">.</strong>
@@ -40,25 +41,25 @@ const data = await loadEnv()
     </div>
 
     <div class="mt-32 mb-36">
-      <a  class="px-14 py-6 text-3xl mr-12 bg-indigo-500">
+      <a href="https://api.whatsapp.com/send?phone=5516996160622" class="px-14 py-6 text-3xl mr-12 bg-indigo-500">
         {locale.hireMe}
       </a>
 
-      <a class="px-14 py-6 text-3xl mr-12 bg-gray-800 opacity-50">
+      <a href={knowMoreLink} class="px-14 py-6 text-3xl mr-12 bg-gray-800 opacity-50">
           {locale.knowMore}
       </a>
     </div>
 
     <div class="flex flex-row items-center">
-      <div class=" text-xl w-24 text-indigo-500 mr-14 relative prev-clients">
+      <div class="text-xl w-24 text-indigo-500 mr-14 relative prev-clients">
         {locale.projects}
       </div>
 
-        {env.data.github.list.slice(0, 3).map(project => (
-          <a href={project.url} target="_blank" class="opacity-50 text-grey-400 text-4xl ml-3 ">
-            {project.acronyms}
-          </a>
-        ))}
+      {env.data.github.list.slice(0, 3).map(project => (
+        <a href={project.url} target="_blank" class="opacity-50 text-grey-400 text-4xl ml-3 ">
+          {project.acronyms}
+        </a>
+      ))}
     </div>
 
     <div class="mt-24 pl-12 opacity-50 text-grey-400 text-4xl  ">

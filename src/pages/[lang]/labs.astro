@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Card from '../../components/Card.astro';
+
+import detectLang from '../../js/detectLang'
+import loadEnv, { env } from '../../js/env'
+import loadLang, {locale, localeName} from '../../js/loadLang'
+
+import { marked } from 'marked';
+
+var route = detectLang(Astro)
+if(route) return route
+const lang = await loadLang(Astro.params.lang)
+const data = await loadEnv()
+
+const readmes = {}
+let promises = []
+for (let index = 0; index < env.data.github.list.length; index++) {
+  const repo = env.data.github.list[index];
+  if (!repo.descriptionUrl) continue
+  promises.push(new Promise((resolve) => {
+    fetch(repo.descriptionUrl).then(response => response.text())
+      .then(text => {
+        readmes[repo.name] = marked.parse(text)
+        resolve()
+      })
+  }))
+}
+
+await Promise.all(promises)
+promises = []
+---
+<Layout title={locale.labs}>
+	<main class="grid grid-flow-row-dense grid-cols-3 gap-2 py-2">
+    {env.data.github.list.map(github => (
+      <Card
+        title={github.name}
+        description={readmes[github.name] ? readmes[github.name] : github.description[localeName.toLowerCase().replaceAll('-', '')]}
+        html={!!github.descriptionUrl}
+        href={github.url}
+      />
+    ))}
+	</main>
+</Layout>

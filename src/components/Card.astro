@@ -1,62 +1,115 @@
 ---
 export interface Props {
+	img: string;
 	title: string;
-	body: string;
+	description: string;
+	html?: boolean;
 	href: string;
 }
 
-const { href, title, body } = Astro.props;
+const { title, description, href,img, html = false } = Astro.props;
+import {locale} from '../js/loadLang'
+
 ---
+<div class="relative">
+  <div class="text-4xl h-35 hover:bg-indigo-600 hover:bg-opacity-40 bg-indigo-100 bg-opacity-5">
+    {img &&
+      <div class="h-40 grid grid-cols-1 content-center overflow-hidden">
+        <img class="" src={img} alt={title} />
+      </div>
+    }
 
-<li class="link-card">
-	<a href={href}>
-		<h2>
-			{title}
-			<span>&rarr;</span>
-		</h2>
-		<p>
-			{body}
-		</p>
-	</a>
-</li>
-<style>
-	.link-card {
-		list-style: none;
-		display: flex;
-		padding: 0.15rem;
-		background-color: white;
-		background-image: var(--accent-gradient);
-		background-size: 400%;
-		border-radius: 0.5rem;
-		background-position: 100%;
-		transition: background-position 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-	}
+    <div class="p-6">
+      <h2 class="text-xl text-indigo-400 mb-2">
+        {title}
+      </h2>
 
-	.link-card > a {
-		width: 100%;
-		text-decoration: none;
-		line-height: 1.4;
-		padding: 1rem 1.3rem;
-		border-radius: 0.35rem;
-		color: #111;
-		background-color: white;
-		opacity: 0.8;
-	}
-	h2 {
-		margin: 0;
-		font-size: 1.25rem;
-		transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-	}
-	p {
-		margin-top: 0.5rem;
-		margin-bottom: 0;
-		color: #444;
-	}
-	.link-card:is(:hover, :focus-within) {
-		background-position: 0;
-	}
-	.link-card:is(:hover, :focus-within) h2 {
-		color: rgb(var(--accent));
-	}
-</style>
+      <div class="h-40 leading-4 overflow-hidden text-ellipsis text-justify">
+        {html === true ?
+          <small class="text-lg  line-clamp-6" set:html={description} />
+        :
+          <small class="text-lg  line-clamp-6">
+            {description}
+          </small>
+        }
+      </div>
+
+      <div class="flex items-end mt-2">
+        <button data-show-modal={title} class=" mt-auto text-base text-indigo-400">
+          {locale.more}
+        </button >
+
+        {href &&
+            <a href={href} class="ml-auto mt-auto text-lg text-indigo-600" target="_blank">
+              {locale.see}
+            </a>
+          }
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="relative z-10 hidden" data-modal-id={title} role="dialog" aria-modal="true">
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" data-hide-modal={title}></div>
+
+  <div class="fixed inset-0 z-10 overflow-y-auto">
+    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+
+      <div class="text-4xl w-9/12	 h-5/6 bg-black relative">
+          {img &&
+            <div class="h-80 grid grid-cols-1 content-center overflow-hidden">
+              <img class="" src={img} alt={title} />
+            </div>
+          }
+
+          <div class="p-6">
+            <h2 class="text-xl text-indigo-400 mb-2">
+              {title}
+            </h2>
+
+            <div class="leading-4 overflow-hidden text-left">
+              {html === true ?
+                <small class="text-lg" set:html={description} />
+              :
+                <small class="text-lg">
+                  {description}
+                </small>
+              }
+            </div>
+
+            <div class="flex items-end mt-2">
+              <button data-hide-modal={title} class=" mt-auto text-base text-indigo-400">
+                {locale.close}
+              </button >
+
+              {href &&
+                  <a href={href} class="ml-auto mt-auto text-lg text-indigo-600" target="_blank">
+                    {locale.see}
+                  </a>
+                }
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script define:vars={{ title }}>
+  const dialog = document.querySelector(`[data-modal-id="${title}"]`);
+
+  function showModal() {
+    dialog.classList.remove("hidden");
+  }
+
+  function hideModal() {
+    dialog.classList.add("hidden");
+  }
+
+  const btn = document.querySelector(`[data-show-modal="${title}"]`);
+  btn.addEventListener('click', showModal)
+
+  const closeBtns = document.querySelectorAll(`[data-hide-modal="${title}"]`);
+  closeBtns.forEach(closeBtn => closeBtn.addEventListener('click', hideModal))
+</script>

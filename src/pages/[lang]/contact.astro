@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+import detectLang from '../../js/detectLang'
+import loadEnv from '../../js/env'
+import loadLang, {locale} from '../../js/loadLang'
+
+var route = detectLang(Astro)
+if(route) return route
+const lang = await loadLang(Astro.params.lang)
+const data = await loadEnv()
+---
+<Layout title="Welcome to Astro.">
+	<main>
+    <h1>contact</h1>
+	</main>
+</Layout>

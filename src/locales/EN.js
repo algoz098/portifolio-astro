@@ -1,0 +1,20 @@
+export default {
+  'about': 'About',
+  'work':'Work',
+  'labs':'Labs',
+  'contact':'Contact',
+  'webDeveloper': 'Web Developer',
+  'about_prefix': 'Currently developing for new startups and founders. Also love to code in',
+  'flutter': 'Flutter',
+  'js': 'JS',
+  'and': 'and',
+  'hireMe': 'Hire me',
+  'knowMore': 'Know more',
+  'projects': 'Own projects',
+  'say': 'Stay hungry for knowledge.',
+  'lab': 'Labs.',
+  'see': 'See',
+  more: 'More',
+  close: 'Close',
+  'languageTooltip': 'Change translation'
+};

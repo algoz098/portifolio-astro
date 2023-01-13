@@ -1,22 +1,28 @@
 ---
 import AMenuItem from './AMenuItem.astro'
 import LangChanger from './LangChanger.astro'
+import {locale, localeName} from '../js/loadLang'
+
+const aboutHref = `/${localeName}`
+const workHref = `/${localeName}/work`
+const labsHref = `/${localeName}/labs`
+const contactHref = `/${localeName}/contact`
 ---
-<aside class="w-52" aria-label="Sidebar">
+<aside class="w-58" aria-label="Sidebar">
   <div class="py-4 overflow-y-show decoration-white">
     <ul class="flex flex-col">
       <li class="overflow-y-show mb-10">
         <img src="/avatar.png" alt="Avatar Image" height="30" class="ml-32">
       </li>
 
-      <AMenuItem title="About" href="" />
-      <AMenuItem title="Work" href="/work" />
-      <AMenuItem title="Labs" href="/labs" />
-      <AMenuItem title="Contact" href="/contact" />
+      <AMenuItem title={locale.about} href={aboutHref} />
+      <AMenuItem title={locale.work} href={workHref} />
+      <AMenuItem title={locale.labs} href={labsHref} />
+      <AMenuItem title={locale.contact} href={contactHref} />
 
       <li class="text-gray-500 flex flex-row space-x-2 self-center my-8">
-        <LangChanger lang="pt-BR" tooltip="Tooltip" />
-        <LangChanger lang="EN" tooltip="Tooltip2" />
+        <LangChanger lang="pt-BR" tooltip={locale.languageTooltip} />
+        <LangChanger lang="EN" tooltip={locale.languageTooltip} />
 
         <a href="https://github.com/algoz098" target="_blank">
           <img src="/social.png"  alt="github icon" />

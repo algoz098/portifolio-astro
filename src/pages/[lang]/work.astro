@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Card from '../../components/Card.astro';
+
+import detectLang from '../../js/detectLang'
+import loadEnv, {env} from '../../js/env'
+import loadLang, {locale, localeName} from '../../js/loadLang'
+
+var route = detectLang(Astro)
+if(route) return route
+const lang = await loadLang(Astro.params.lang)
+const data = await loadEnv()
+---
+<Layout title={locale.work}>
+	<main class="grid grid-flow-row-dense grid-cols-3 gap-2 py-2">
+
+    {env.data.companies.list.map(company => (
+      <Card
+        title={company.title}
+        description={company.description[localeName.toLowerCase().replaceAll('-', '')]}
+        href={company.url}
+        img={`/${company.title.toLowerCase().replaceAll(' ', '')}.png`}
+      />
+    ))}
+	</main>
+</Layout>

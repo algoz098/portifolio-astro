@@ -6,11 +6,11 @@ export interface Props {
 
 const { lang, tooltip } = Astro.props;
 ---
-<div class="hover:text-gray-600 cursor-pointer lang">
+<a href={`/${lang}`} class="hover:text-gray-600 cursor-pointer lang">
   {lang}
 
   <span class="tooltiptext">{tooltip}</span>
-</div>
+</a>
 
 <style>
 .lang:hover .tooltiptext {

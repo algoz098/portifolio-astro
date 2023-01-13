@@ -1,7 +1,11 @@
 export default function detectLang(Astro) {
+  const validLangs = ['pt-BR', 'EN'];
+  if (Astro.params.lang && validLangs.includes(Astro.params.lang)) {
+    return null;
+  }
+
   let result = 'EN';
   const langHeader = Object.fromEntries(Astro.request.headers)['accept-language'];
-  const validLangs = ['pt-BR', 'EN'];
 
   for (let index = 0; index < validLangs.length; index++) {
     const valid = validLangs[index];
@@ -9,5 +13,5 @@ export default function detectLang(Astro) {
   }
 
   console.log(`redirecting to ${result}`);
-  return Astro.redirect(`/${result}/batata`);
+  return Astro.redirect(`/${result}`);
 }

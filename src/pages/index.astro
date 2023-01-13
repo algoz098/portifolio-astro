@@ -1,16 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
 
 import detectLang from '../js/detectLang'
+import loadLang from '../js/loadLang'
 import loadEnv from '../js/env'
 
-detectLang(Astro)
+const route = detectLang(Astro)
+if(route) return route
+const lang = loadLang(Astro.params.lang)
 const data = await loadEnv()
 ---
 
 <Layout title="Welcome to Astro.">
 	<main>
-		Eta
 	</main>
 </Layout>

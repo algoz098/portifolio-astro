@@ -1,16 +1,93 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Card from '../../components/Card.astro';
 
 import detectLang from '../../js/detectLang'
-import loadEnv from '../../js/env'
+import loadEnv, {env} from '../../js/env'
+import loadLang, {locale} from '../../js/loadLang'
 
-detectLang(Astro)
+var route = detectLang(Astro)
+if(route) return route
+const lang = await loadLang(Astro.params.lang)
 const data = await loadEnv()
 ---
-<Layout title="Welcome to Astro.">
-	<main>
-		Oi
-		</ul>
-	</main>
+<Layout title={lang.about}>
+
+  <section>
+    <h2 class="mt-28 text-8xl">
+      <strong>artur</strong> sena<strong class="text-indigo-500">.</strong>
+    </h2>
+
+    <h3 class="text-5xl mt-4 text-indigo-500">
+      {locale.webDeveloper}
+    </h3>
+
+    <div class="mt-16 grid grid-cols-1">
+      <div class="col-xl-7 mt-0">
+        <p class="w-3/5 text-gray-400 text-5xl">
+          {locale.about_prefix}
+
+          <strong class="text-indigo-500">
+            {locale.flutter}
+          </strong>
+
+          {locale.and}
+
+          <strong class="text-indigo-500">
+            {locale.js}
+          </strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-32 mb-36">
+      <a  class="px-14 py-6 text-3xl mr-12 bg-indigo-500">
+        {locale.hireMe}
+      </a>
+
+      <a class="px-14 py-6 text-3xl mr-12 bg-gray-800 opacity-50">
+          {locale.knowMore}
+      </a>
+    </div>
+
+    <div class="flex flex-row items-center">
+      <div class=" text-xl w-24 text-indigo-500 mr-14 relative prev-clients">
+        {locale.projects}
+      </div>
+
+        {env.data.github.list.slice(0, 3).map(project => (
+          <a href={project.url} target="_blank" class="opacity-50 text-grey-400 text-4xl ml-3 ">
+            {project.acronyms}
+          </a>
+        ))}
+    </div>
+
+    <div class="mt-24 pl-12 opacity-50 text-grey-400 text-4xl  ">
+      {locale.say}
+    </div>
+  </section>
 </Layout>
+
+
+<style>
+  section {
+    background-image: url('/bg_avatar.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  section, h2, p, h3, button, span {
+    font-family: ProximaNovaLight;
+  }
+
+  .prev-clients:after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 55px;
+    -webkit-transform: rotate(25deg);
+    transform: rotate(25deg);
+    background-color: #744bff;
+    top: 3px;
+    right: -10px;
+  }
+</style>
